@@ -75,12 +75,7 @@ export default class SqlCommand {
           columns.length === 1 &&
           reservedColumnName.test(colsBuffer[0].colName);
       });
-      // request.on('prepared', () => {
-      // 	console.log('event:prepared');
-      // });
-      // request.on('error', err => {
-      // 	console.log('event:prepared', { err });
-      // });
+
       request.on('row', columns => {
         if (concatRows) {
           streamBuffer += columns[0].value;
@@ -88,31 +83,7 @@ export default class SqlCommand {
           rowsBuffer.push(tdsRowToDataRow(columns));
         }
       });
-      // request.on('done', (rowCount, more, rows) => {
-      // 	console.log('event:row', { rowCount, more, rows });
-      // });
-      // request.on('doneProc', (rowCount, more, rows) => {
-      // 	console.log('event:doneProc', { rowCount, more, rows });
-      // });
-      // request.on('returnValue', (parameterName, value, metadata) => {
-      // 	console.log('event:returnValue', { parameterName, value, metadata });
-      // });
-      // request.on('order', orderColumns => {
-      // 	console.log('event:order', { orderColumns });
-      // });
-      // request.on('order', orderColumns => {
-      // 	console.log('event:order', { orderColumns });
-      // });
-      // request.on('cancel', () => {
-      // 	console.log('event:cancel');
-      // });
-      // request.on('doneInProc', (rowCount: number | undefined, more: boolean, rows?: any[]) => {
-      // 	console.log('Request.doneInProc', {
-      // 		rowCount,
-      // 		more,
-      // 		rows
-      // 	});
-      // });
+
       request.on('requestCompleted', () => {
         if (concatRows) {
           rowsBuffer = JSON.parse(streamBuffer);
@@ -126,11 +97,6 @@ export default class SqlCommand {
             },
           ],
         };
-        console.log('Request.requestCompleted', {
-          bufferSize: rowsBuffer.length,
-          tablesCount: dataset.tables.length,
-          tableSample: dataset.tables[0],
-        });
         res(dataset);
       });
 
@@ -149,42 +115,6 @@ export default class SqlCommand {
           rej(err);
         }
       });
-
-      // request.on(
-      //   'done',
-      //   (rowCount: number | undefined, more: boolean, rows?: any[]) => {
-      //   console.log('Request.done', {
-      //     rowCount,
-      //     more,
-      //     rows,
-      //   });
-      // });
-
-      // request.on('doneInProc', (rowCount: number | undefined, more: boolean, rows?: any[]) => {
-      //   // triggered by execSql
-      //   console.log('Request.doneInProc', {
-      //     rowCount,
-      //     more,
-      //     rows,
-      //   });
-      // });
-      //
-      // request.on('doneProc', (rowCount: number | undefined, more: boolean, returnStatus: any, rows?: any[]) => {
-      //   console.log('Request.doneProc', {
-      //     rowCount,
-      //     more,
-      //     returnStatus,
-      //     rows,
-      //   });
-      // });
-      //
-      // request.on('returnValue', (parameterName: string, value: unknown, metadata: Metadata) => {
-      //   console.log('Request.returnValue', {
-      //     parameterName,
-      //     value,
-      //     metadata,
-      //   });
-      // });
 
       request.on('requestCompleted', () => {
         res(0);
