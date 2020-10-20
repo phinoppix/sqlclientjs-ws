@@ -1,6 +1,8 @@
 import {Command, flags} from '@oclif/command';
+const config = require('dotenv').config();
 
-import {foo} from './sqltests';
+import * as Test from './sqltests';
+
 
 class Testapp extends Command {
   static description = 'describe the command here';
@@ -26,7 +28,7 @@ class Testapp extends Command {
     //   this.log(`you input --force and --file: ${args.file}`)
     // }
 
-    this.log(`Answer is : ${foo()}`);
+    await Test.execStoredProcWithInsertAndResultset();
   }
 }
 

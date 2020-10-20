@@ -1,6 +1,9 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+import SqlConnection from './SqlConnection';
+import SqlCommand from './SqlCommand';
+import { TYPES } from 'tedious';
+
+export * from './types';
+export * from './SqlParameter';
+export const Types = TYPES;
+
+export { SqlConnection, SqlCommand };
