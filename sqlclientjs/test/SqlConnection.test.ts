@@ -5,8 +5,6 @@ import { Connection } from 'tedious';
 jest.mock('tedious');
 const MockedConnection = mocked(Connection);
 
-// let MockSqlConnection = mocked(SqlConnection, true);
-
 beforeEach(() => {
   MockedConnection.mockClear();
 });
