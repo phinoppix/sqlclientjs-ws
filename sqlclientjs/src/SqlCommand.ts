@@ -86,7 +86,16 @@ export default class SqlCommand {
 
       request.on('requestCompleted', () => {
         if (concatRows) {
-          rowsBuffer = JSON.parse(streamBuffer);
+          if (streamBuffer === '') {
+            rowsBuffer = [];
+          } else {
+            try {
+              rowsBuffer = JSON.parse(streamBuffer);
+            } catch (e) {
+              console.log('Parsing error at requestCompleted() event', e);
+              rowsBuffer = [];
+            }
+          }
           colsBuffer = [];
         }
         const dataset: DataSet = {
